@@ -1,28 +1,24 @@
 pipeline {
-    agent any
-
-    environment {
-        IMAGE_NAME = "hema/java11-example"
-        IMAGE_TAG = "latest"
-    }
-
-    stages {
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
-            }
-        }
-
-        stage('Push to DockerHub') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh '''
-                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                        docker push ${IMAGE_NAME}:${IMAGE_TAG}
-                    '''
-                }
-            }
-        }
-    }
+agent any
+stages {
+  stage('Checkout') {
+    steps {
+// Checkout code from the Git repository
+     sh 'echo checking out'
+   }
+  }
+stage('Build') {
+  steps {
+// Build the Java application (replace with your build commands)
+  sh 'javac -version'
+ }
+}
+stage('Deploy') {
+  steps {
+  // Deploy the application (replace with your deployment commands)
+   sh 'echo "Deploying the application"'
+   }
+  }
+ }
 }
 
